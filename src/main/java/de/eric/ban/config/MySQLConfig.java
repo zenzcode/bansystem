@@ -13,7 +13,10 @@ public class MySQLConfig extends AConfig {
 
     public MySQLConfig(String configName) {
         super(configName);
-        setDefaults();
+        if(!doesFileExist()){
+            createFile();
+            setDefaults();
+        }
     }
 
     @Override

@@ -16,7 +16,6 @@ public abstract class AConfig {
     //Constructor creates file and configuration
     public AConfig(String configName){
         file = new File(Ban.getInstance().getDataFolder(), configName);
-        createFile();
         try {
             yamlConfiguration = Optional.of(ConfigurationProvider.getProvider(YamlConfiguration.class).load(file));
         } catch (IOException e) {
@@ -51,6 +50,10 @@ public abstract class AConfig {
     //check if yaml config is present, constructor could have failed to get it
     Configuration getCurrentConfiguration(){
         return yamlConfiguration.orElse(null);
+    }
+
+    boolean doesFileExist(){
+        return file.exists();
     }
 
     //function to create file

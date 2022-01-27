@@ -23,12 +23,36 @@ public class MessageHelper {
                 setMessages(configuration.getSection(key));
                 break;
             }else{
-                addMessage(key, configuration.getString(key));
+                addMessage(key, configuration.getString(key).replaceAll("&", "§"));
             }
         }
     }
 
     public String getMessage(String identifier){
         return messages.getOrDefault(identifier, "");
+    }
+
+    private String replaceReason(String input, String reason){
+        return input.replaceAll("%reason%", reason);
+    }
+
+    private String replacePlayer(String input, String playerName){
+        return input.replaceAll("%player%", playerName);
+    }
+
+    private String replaceTime(String input, long time){
+        if(time == -1){
+            return input.replaceAll("%time%", "Permanent");
+        }
+
+        //TODO: Convert time
+        return input.replaceAll("%time%", Long.toString(time));
+    }
+
+    public String replace(String message, long time, String player, String reason){
+        message = replaceTime(message, time);
+        message = replacePlayer(message, player);
+        message = replaceReason(message, reason);
+        return message;
     }
 }
