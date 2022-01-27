@@ -43,6 +43,11 @@ public abstract class AConfig {
         return (T)configuration.get(name);
     }
 
+    public Configuration getSection(String name){
+        Configuration configuration = getCurrentConfiguration();
+        return configuration.getSection(name);
+    }
+
     //check if yaml config is present, constructor could have failed to get it
     Configuration getCurrentConfiguration(){
         return yamlConfiguration.orElse(null);

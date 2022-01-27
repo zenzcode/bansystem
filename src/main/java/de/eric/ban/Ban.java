@@ -2,6 +2,7 @@ package de.eric.ban;
 
 import de.eric.ban.config.MessagesConfig;
 import de.eric.ban.config.MySQLConfig;
+import de.eric.ban.helper.MessageHelper;
 import de.eric.ban.sql.MySQL;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -22,10 +23,11 @@ public class Ban extends Plugin {
 
     /**
      *
-     * Message Config
+     * Messages
      *
      */
     private MessagesConfig messagesConfig;
+    private MessageHelper messageHelper;
 
     @Override
     public void onEnable() {
@@ -33,6 +35,8 @@ public class Ban extends Plugin {
         mySQLConfig = new MySQLConfig("mysql.yaml");
         mysql = new MySQL();
         messagesConfig = new MessagesConfig("messages.yaml");
+        messageHelper = new MessageHelper();
+        messageHelper.setMessages(messagesConfig.getSection("messages"));
         registerListener();
         registerCommands();
         getProxy().getConsole().sendMessage("§aBansystem aktiviert");
