@@ -9,3 +9,9 @@ commands:
       - punish
     permission: ban.ban
     usage: /command <player> <reason> (<time>)
+  unban:
+    description: unbans a player
+    alias:
+      - pardon
+    permission: ban.unban
+    usage: /command <player>
