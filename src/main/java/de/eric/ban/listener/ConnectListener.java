@@ -2,12 +2,7 @@ package de.eric.ban.listener;
 
 
 import de.eric.ban.Ban;
-import de.eric.ban.helper.MessageTypes;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PostLoginEvent;
-import net.md_5.bungee.api.event.PreLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
@@ -16,13 +11,13 @@ import java.util.UUID;
 public class ConnectListener implements Listener {
 
     @EventHandler
-    public void onLogin(PostLoginEvent event){
+    public void onLogin(PostLoginEvent event) {
         UUID connectingPlayer = event.getPlayer().getUniqueId();
-        if(Ban.getInstance().getMysql().isPlayerBanned(connectingPlayer.toString())){
+        if (Ban.getInstance().getMysql().isPlayerBanned(connectingPlayer.toString())) {
             //check if player can be unbanned
-            if(Ban.getInstance().getBanHelper().canBeUnbanned(connectingPlayer)){
+            if (Ban.getInstance().getBanHelper().canBeUnbanned(connectingPlayer)) {
                 Ban.getInstance().getBanHelper().unbanPlayer(connectingPlayer);
-            }else{
+            } else {
                 //get ban information
                 String banReason = Ban.getInstance().getMysql().getBanReason(connectingPlayer.toString());
 

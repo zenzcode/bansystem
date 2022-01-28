@@ -2,7 +2,6 @@ package de.eric.ban.sql;
 
 import de.eric.ban.Ban;
 import de.eric.ban.helper.MessageTypes;
-import net.md_5.bungee.api.chat.BaseComponent;
 
 import java.sql.*;
 import java.util.Optional;

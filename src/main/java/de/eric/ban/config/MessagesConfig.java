@@ -2,7 +2,7 @@ package de.eric.ban.config;
 
 import net.md_5.bungee.config.Configuration;
 
-public class MessagesConfig extends AConfig{
+public class MessagesConfig extends AConfig {
 
     public MessagesConfig(String configName) {
         super(configName);

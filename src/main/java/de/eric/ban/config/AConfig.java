@@ -15,9 +15,9 @@ public abstract class AConfig {
     private boolean hasBeenCreated = false;
 
     //Constructor creates file and configuration
-    public AConfig(String configName){
+    public AConfig(String configName) {
         file = new File(Ban.getInstance().getDataFolder(), configName);
-        if(!doesFileExist()){
+        if (!doesFileExist()) {
             createFile();
             hasBeenCreated = true;
         }
@@ -26,7 +26,7 @@ public abstract class AConfig {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(hasBeenCreated){
+        if (hasBeenCreated) {
             setDefaults();
         }
     }
@@ -35,7 +35,7 @@ public abstract class AConfig {
     abstract void setDefaults();
 
     //function to save config
-    public void save(){
+    public void save() {
         Configuration configuration = getCurrentConfiguration();
         try {
             ConfigurationProvider.getProvider(YamlConfiguration.class).save(configuration, file);
@@ -45,31 +45,31 @@ public abstract class AConfig {
     }
 
     //generic function to return a value from a config
-    public <T> T getFromConfig(String name){
+    public <T> T getFromConfig(String name) {
         Configuration configuration = getCurrentConfiguration();
-        return (T)configuration.get(name);
+        return (T) configuration.get(name);
     }
 
-    public Configuration getSection(String name){
+    public Configuration getSection(String name) {
         Configuration configuration = getCurrentConfiguration();
         return configuration.getSection(name);
     }
 
     //check if yaml config is present, constructor could have failed to get it
-    Configuration getCurrentConfiguration(){
+    Configuration getCurrentConfiguration() {
         return yamlConfiguration.orElse(null);
     }
 
-    boolean doesFileExist(){
+    boolean doesFileExist() {
         return file.exists();
     }
 
     //function to create file
-    void createFile(){
-        try{
+    void createFile() {
+        try {
             file.getParentFile().mkdirs();
             file.createNewFile();
-        }catch(IOException exception){
+        } catch (IOException exception) {
             exception.printStackTrace();
         }
     }

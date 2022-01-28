@@ -21,47 +21,44 @@ public class BanCommand extends Command {
 
     @Override
     public void execute(CommandSender commandSender, String[] args) {
-        if(!commandSender.hasPermission(getPermission())){
+        if (!commandSender.hasPermission(getPermission())) {
             commandSender.sendMessage(Ban.getInstance().getMessageHelper().getNotAllowedMessage());
             return;
         }
 
-        if(args.length > 1){
-            try{
+        if (args.length > 1) {
+            try {
                 UUID target = Ban.getInstance().getBanHelper().getUUIDFromName(args[0]);
                 //we dont want to ban a already banned player
-                if(Ban.getInstance().getMysql().isPlayerBanned(target.toString())){
-                    //TODO: Ban Message
+                if (Ban.getInstance().getMysql().isPlayerBanned(target.toString())) {
                     commandSender.sendMessage(getPlayerBannedMessage(target, args[0]));
                     return;
                 }
                 String reason = args[1];
                 UUID commandSenderUUID = Ban.getInstance().getProxy().getPlayer(commandSender.getName()).getUniqueId();
-                switch (args.length){
-                    case 2:
-                        if(commandSenderUUID == target) return;
+                switch (args.length) {
+                    case 2 -> {
+                        if (commandSenderUUID == target) return;
                         Ban.getInstance().getBanHelper().banPlayer(target, args[0], reason, -1);
                         commandSender.sendMessage(getBanMessage(args[0], reason, -1));
-                        break;
-                    case 3:
-                        if(commandSenderUUID == target) return;
-                        try{
+                    }
+                    case 3 -> {
+                        if (commandSenderUUID == target) return;
+                        try {
                             int timeInDays = Integer.parseInt(args[2]);
                             long timeMillis = System.currentTimeMillis() + (long) timeInDays * 24 * 60 * 60 * 1000;
                             Ban.getInstance().getBanHelper().banPlayer(target, args[0], reason, timeMillis);
                             commandSender.sendMessage(getBanMessage(args[0], reason, timeMillis));
-                        }catch(NumberFormatException ex){
+                        } catch (NumberFormatException ex) {
                             commandSender.sendMessage(getCommandUsage());
                         }
-                        break;
-                    default:
-                        commandSender.sendMessage(getCommandUsage());
-                        break;
+                    }
+                    default -> commandSender.sendMessage(getCommandUsage());
                 }
-            }catch(APIException | IOException | InvalidPlayerException exception){
+            } catch (APIException | IOException | InvalidPlayerException exception) {
                 commandSender.sendMessage(getErrorMessage());
             }
-        }else{
+        } else {
             commandSender.sendMessage(
                     getCommandUsage()
             );
@@ -70,7 +67,7 @@ public class BanCommand extends Command {
 
     //Create Base Components because String is deprecated in sendMessage
 
-    private BaseComponent[] getPlayerBannedMessage(UUID target, String name){
+    private BaseComponent[] getPlayerBannedMessage(UUID target, String name) {
         return new ComponentBuilder().append(
                 Ban.getInstance().getMessageHelper().replace(
                         Ban.getInstance().getMessageHelper().getMessage(MessageTypes.MESSAGE_PLAYER_BANNED),
@@ -80,7 +77,7 @@ public class BanCommand extends Command {
         ).create();
     }
 
-    private BaseComponent[] getBanMessage(String name, String reason, long time){
+    private BaseComponent[] getBanMessage(String name, String reason, long time) {
 
         return new ComponentBuilder()
                 .append(Ban.getInstance().getMessageHelper().replace(
@@ -91,7 +88,7 @@ public class BanCommand extends Command {
                 )).create();
     }
 
-    private BaseComponent[] getCommandUsage(){
+    private BaseComponent[] getCommandUsage() {
         return new ComponentBuilder().append(
                 Ban.getInstance().getMessageHelper().replaceCommand(
                         Ban.getInstance().getMessageHelper().getMessage(MessageTypes.MESSAGE_WRONG_USAGE),
@@ -100,7 +97,7 @@ public class BanCommand extends Command {
         ).create();
     }
 
-    private BaseComponent[] getErrorMessage(){
+    private BaseComponent[] getErrorMessage() {
         return new ComponentBuilder().append(
                 Ban.getInstance().getMessageHelper().replace(
                         Ban.getInstance().getMessageHelper().getMessage(MessageTypes.MESSAGE_ERROR),

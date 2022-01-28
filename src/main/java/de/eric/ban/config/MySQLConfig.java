@@ -1,13 +1,6 @@
 package de.eric.ban.config;
 
-import de.eric.ban.Ban;
 import net.md_5.bungee.config.Configuration;
-import net.md_5.bungee.config.ConfigurationProvider;
-import net.md_5.bungee.config.YamlConfiguration;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Optional;
 
 public class MySQLConfig extends AConfig {
 
