@@ -1,3 +1,11 @@
 name: PlayLegendBan
 version: 1.0
 main: de.eric.ban.Ban
+
+commands:
+  ban:
+    description: bans a player
+    aliases:
+      - punish
+    permission: ban.ban
+    usage: /command <player> <reason> (<time>)

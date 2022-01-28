@@ -1,7 +1,10 @@
 package de.eric.ban;
 
+import de.eric.ban.commands.BanCommand;
+import de.eric.ban.commands.UnbanCommand;
 import de.eric.ban.config.MessagesConfig;
 import de.eric.ban.config.MySQLConfig;
+import de.eric.ban.helper.BanHelper;
 import de.eric.ban.helper.MessageHelper;
 import de.eric.ban.listener.ConnectListener;
 import de.eric.ban.sql.MySQL;
@@ -30,6 +33,13 @@ public class Ban extends Plugin {
     private MessagesConfig messagesConfig;
     private MessageHelper messageHelper;
 
+    /**
+     *
+     * Ban Helper
+     *
+     */
+    private BanHelper banHelper;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -42,6 +52,7 @@ public class Ban extends Plugin {
                 mySQLConfig.getFromConfig("mysql.user"),
                 mySQLConfig.getFromConfig("mysql.password"),
                 Integer.parseInt(mySQLConfig.getFromConfig("mysql.port")));
+        banHelper = new BanHelper();
         registerListener();
         registerCommands();
         getProxy().getConsole().sendMessage("§aBansystem aktiviert");
@@ -57,7 +68,10 @@ public class Ban extends Plugin {
     }
 
     private void registerCommands(){
-
+        getProxy().getPluginManager().registerCommand(this, new BanCommand("ban", "ban.ban",
+                "punish"));
+        getProxy().getPluginManager().registerCommand(this, new UnbanCommand("unban", "ban.unban",
+                "pardon"));
     }
 
     /***
@@ -79,5 +93,9 @@ public class Ban extends Plugin {
 
     public MessageHelper getMessageHelper() {
         return messageHelper;
+    }
+
+    public BanHelper getBanHelper() {
+        return banHelper;
     }
 }

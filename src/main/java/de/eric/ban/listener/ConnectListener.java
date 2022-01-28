@@ -18,29 +18,25 @@ public class ConnectListener implements Listener {
     @EventHandler
     public void onLogin(PostLoginEvent event){
         UUID connectingPlayer = event.getPlayer().getUniqueId();
-        //TODO: Check if time of ban is over
         if(Ban.getInstance().getMysql().isPlayerBanned(connectingPlayer.toString())){
-            //get ban information
-            long remainingTime = Ban.getInstance().getMysql().getRemainingBanTime(connectingPlayer.toString());
-            String banReason = Ban.getInstance().getMysql().getBanReason(connectingPlayer.toString());
+            //check if player can be unbanned
+            if(Ban.getInstance().getBanHelper().canBeUnbanned(connectingPlayer)){
+                Ban.getInstance().getBanHelper().unbanPlayer(connectingPlayer);
+            }else{
+                //get ban information
+                String banReason = Ban.getInstance().getMysql().getBanReason(connectingPlayer.toString());
 
-            //CREATE MESSAGE
-            BaseComponent[] component = new ComponentBuilder()
-                    .append(Ban.getInstance().getMessageHelper().replace(
-                            Ban.getInstance().getMessageHelper().getMessage(MessageTypes.MESSAGE_BAN_FIRST_LINE),
-                            remainingTime,
-                            event.getPlayer().getDisplayName(),
-                            banReason))
-                    .append("\n")
-                    .append(Ban.getInstance().getMessageHelper().replace(
-                            Ban.getInstance().getMessageHelper().getMessage(MessageTypes.MESSAGE_BAN_SECOND_LINE),
-                            remainingTime,
-                            event.getPlayer().getDisplayName(),
-                            banReason))
-                    .create();
 
-            //Kick player with message defined in config if banned
-            Ban.getInstance().getProxy().getPlayer(connectingPlayer).disconnect(component);
+                //Kick player with message defined in config if banned
+                Ban.getInstance().getProxy().getPlayer(connectingPlayer).disconnect(
+                        Ban.getInstance().getBanHelper().getBanMessage(
+                                connectingPlayer,
+                                event.getPlayer().getDisplayName(),
+                                banReason,
+                                Ban.getInstance().getBanHelper().getRemainingTimeString(connectingPlayer)
+                        )
+                );
+            }
         }
     }
 }

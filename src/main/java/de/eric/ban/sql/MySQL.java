@@ -72,6 +72,7 @@ public class MySQL {
         return Optional.empty();
     }
 
+    //checks if player banned (could be moved to BanHelper)
     public boolean isPlayerBanned(String uuid) {
         Optional<ResultSet> resultSet = get("SELECT * FROM `bans` WHERE `uuid` = '" + uuid + "'");
         if(resultSet.isEmpty()) return false;
@@ -88,6 +89,7 @@ public class MySQL {
         return false;
     }
 
+    //retrieves remaining ban time from a database
     public long getRemainingBanTime(String uuid){
         Optional<ResultSet> resultSet = get("SELECT `unban` FROM `bans` WHERE `uuid` = '" + uuid + "'");
         if(resultSet.isEmpty()) return -1;
@@ -101,6 +103,8 @@ public class MySQL {
         return -1;
     }
 
+
+    //retrieves the reason of a ban from database
     public String getBanReason(String uuid){
         Optional<ResultSet> resultSet = get("SELECT `reason` FROM `bans` WHERE `uuid` = '" + uuid + "'");
         if(resultSet.isEmpty()) return "";
@@ -112,5 +116,16 @@ public class MySQL {
             exception.printStackTrace();
         }
         return "";
+    }
+
+    //unbans a player
+    public void unbanPlayer(String uuid){
+        update("DELETE FROM `bans` WHERE `uuid` = '" + uuid + "'");
+    }
+
+    //Prepared statements wären auch ne option
+    public void banPlayer(String uuid, String reason, long end){
+        update("INSERT INTO `bans`(`uuid`, `reason`, `unban`) " +
+                "VALUES('"+ uuid+"', '"+reason+"', "+ end+")");
     }
 }

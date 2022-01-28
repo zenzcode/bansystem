@@ -7,6 +7,16 @@
       <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="jitpack.io" />
+      <option name="name" value="jitpack.io" />
+      <option name="url" value="https://jitpack.io" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="ac-repo" />
+      <option name="name" value="ac-repo" />
+      <option name="url" value="https://raw.github.com/mazentheamazin/AccountsClient/mvn-rep/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Maven Central repository" />
       <option name="url" value="https://repo1.maven.org/maven2" />
@@ -20,6 +30,11 @@
       <option name="id" value="bungeecord-repo" />
       <option name="name" value="bungeecord-repo" />
       <option name="url" value="https://oss.sonatype.org/content/repositories/snapshots" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="ac-repo" />
+      <option name="name" value="ac-repo" />
+      <option name="url" value="https://libraries.minecraft.net" />
     </remote-repository>
   </component>
 </project>

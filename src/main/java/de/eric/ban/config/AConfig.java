@@ -12,14 +12,22 @@ import java.util.Optional;
 public abstract class AConfig {
     private File file = null;
     private Optional<Configuration> yamlConfiguration = Optional.empty();
+    private boolean hasBeenCreated = false;
 
     //Constructor creates file and configuration
     public AConfig(String configName){
         file = new File(Ban.getInstance().getDataFolder(), configName);
+        if(!doesFileExist()){
+            createFile();
+            hasBeenCreated = true;
+        }
         try {
             yamlConfiguration = Optional.of(ConfigurationProvider.getProvider(YamlConfiguration.class).load(file));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        if(hasBeenCreated){
+            setDefaults();
         }
     }
 
